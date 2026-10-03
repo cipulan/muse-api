@@ -26,10 +26,10 @@ Dukung load balancing multi-akun via Round-Robin. Jalan pakai Docker (multi-arch
 ## Cara Dapat Cookie
 
 1. Buka situs Meta Muse.ai. Login.
-2. Buka Developer Tools (F12) -> masuk tab **Console**.
-3. Jalankan kode ini (tekan Enter):
-   ```javascript
-   copy(document.cookie.split('; ').filter(c => ['datr', 'hatch_native_auth_device', 'theme', 'hatch_sess', 'hatch_gw'].includes(c.split('=')[0])).join('; ') + ';');
-   ```
-4. Nilai cookie otomatis tersalin (copy).
-5. Paste (Ctrl+V) ke dalam file `muse-proxy/cookies.txt`. Simpan.
+2. Buka Developer Tools (F12) -> masuk tab **Network**.
+3. Refresh halaman (F5).
+4. Klik salah satu request (misal: nama domain utama atau request ke API).
+5. Pada panel kanan, cari bagian **Request Headers**.
+6. Cari header bernama `cookie:`.
+7. Klik kanan nilai cookie tersebut -> Copy value.
+8. Paste (Ctrl+V) ke dalam file `muse-proxy/cookies.txt` (pastikan 1 baris penuh tanpa putus). Simpan.
