@@ -11,6 +11,11 @@ RUN python -m patchright install --with-deps chromium
 
 # Copy project files
 COPY muse-proxy /app
+COPY fix-server.patch /app/
+
+# Apply patch
+RUN apt-get update && apt-get install -y patch && rm -rf /var/lib/apt/lists/*
+RUN patch -p1 < fix-server.patch
 
 EXPOSE 20133
 

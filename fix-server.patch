@@ -1,0 +1,31 @@
+diff --git a/server.py b/server.py
+index 80c98c7..721ad72 100644
+--- a/server.py
++++ b/server.py
+@@ -293,7 +293,7 @@ class MultiAccountBrowserWorker(threading.Thread):
+         # extractor matches the previous turn's reply and returns it as if it were the
+         # answer to the current prompt (off-by-one responses).
+         baseline = page.evaluate("""() => {
+-            const nodes = document.querySelectorAll('div.prose, div[class*="leading-relaxed"]');
++            const nodes = document.querySelectorAll('[data-message-role="assistant"]');
+             return Array.from(nodes).map(n => (n.innerText || "").trim()).filter(Boolean);
+         }""")
+         baseline_set = set(baseline)
+@@ -320,7 +320,7 @@ class MultiAccountBrowserWorker(threading.Thread):
+                 pass
+ 
+             latest_info = page.evaluate("""() => {
+-                const nodes = document.querySelectorAll('div.prose, div[class*="leading-relaxed"]');
++                const nodes = document.querySelectorAll('[data-message-role="assistant"]');
+                 if (!nodes || nodes.length === 0) return { count: 0, text: "" };
+                 const lastNode = nodes[nodes.length - 1];
+                 return { count: nodes.length, text: (lastNode.innerText || "").trim() };
+@@ -330,7 +330,7 @@ class MultiAccountBrowserWorker(threading.Thread):
+             cur_text = latest_info.get("text", "")
+ 
+             # Accept only content that is genuinely NEW relative to the baseline.
+-            is_new = bool(cur_text) and cur_count > baseline_count and cur_text not in baseline_set
++            is_new = bool(cur_text) and (cur_count > baseline_count or cur_text not in baseline_set)
+ 
+             if is_new:
+                 if cur_text == last_text:
