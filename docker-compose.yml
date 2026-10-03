@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  muse-proxy:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: muse-proxy
+    ports:
+      - "20133:20133"
+    volumes:
+      - ./muse-proxy/cookies.txt:/app/cookies.txt
+    restart: unless-stopped

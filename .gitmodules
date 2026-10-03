@@ -1,0 +1,3 @@
+[submodule "muse-proxy"]
+	path = muse-proxy
+	url = https://github.com/wuzzstoreservice/muse-proxy.git
